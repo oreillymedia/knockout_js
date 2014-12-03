@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<textarea data-bind="textInput: myText"></textarea><br/>
+	Characters remaining: <span data-bind="text: charactersRemaining"></span>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script type='text/javascript' src='js/maxCharacters.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.maxCharacters = 140;
+			
+			self.myText = ko.observable('').extend({maxCharacters: self.maxCharacters});
+			
+			self.charactersRemaining = ko.computed(function() {
+				return self.maxCharacters - self.myText().length;
+			});
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

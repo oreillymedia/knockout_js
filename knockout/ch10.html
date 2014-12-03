@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Yet Another Shopping Cart</title>
+</head>
+<body>
+	
+	<div style="float: left; width: 50%">
+		<ul>
+			<!-- ko foreach: categories -->
+			<li><a href="#" data-bind="click: $parent.showProducts, text: name"></a></li>
+			<!-- /ko -->
+		</ul>
+		
+		<ul>
+			<!-- ko foreach: availableProducts -->
+			<li>
+				<!-- ko template: { name: 'item-template', data: $data } -->
+				<!-- /ko -->
+				<p><button data-bind="click: $parent.addItem">Add to cart</button></p>
+			</li>
+			<!-- /ko -->
+		</ul>
+	</div>
+	
+	<div style="float: left; width: 50%">
+		<h1>Items in cart: <span data-bind="text: cartItems().length"></span></h1>
+		
+		<ul>
+			<!-- ko foreach: { data: cartItems, afterAdd: fadeIn, beforeRemove: fadeOut } -->
+			<li>
+				<!-- ko template: { name: 'item-template', data: $data } -->
+				<!-- /ko -->
+				<p><button data-bind="click: $parent.removeItem">Remove</button></p>
+			</li>
+			<!-- /ko -->
+		</ul>
+		
+		<h3>Total: $<span data-bind="text: cartTotal"></span></h3>
+	</div>
+	
+	<script type="text/html" id="item-template">
+		<h2 data-bind="text: getTitle()"></h2>
+		<p data-bind="html: getDescription()"></p>
+		<p>Price: $<span data-bind="text: price"></span></p>
+	</script>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/jquery-ui.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script type='text/javascript' src='js/classes.js'></script>
+	<script type='text/javascript' src='js/data.js'></script>
+	<script type='text/javascript' src='js/viewmodel.js'></script>
+	<script>
+		var viewModel = new ViewModel(categories);
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

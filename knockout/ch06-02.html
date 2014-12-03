@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<form>
+		<textarea data-bind="tinymce: htmlText"></textarea>
+	</form>
+	
+	<button type="button" data-bind="click: resetContent">Reset content</button>
+	
+	<h2>Preview</h2>
+	<div data-bind="html: htmlText"></div>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/tinymce/jquery.tinymce.min.js'></script>
+	<script type='text/javascript' src='js/tinymce/tinymce.min.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script type='text/javascript' src='js/kobinding.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.htmlText = ko.observable();
+			
+			self.resetContent = function() {
+				self.htmlText('');
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

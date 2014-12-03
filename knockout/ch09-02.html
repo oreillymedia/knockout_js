@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	<!-- ko if: hasFetchedBook -->
+	<div id="book" data-bind="with: book">
+		<img data-bind="attr: { src: image }" />
+		<h1 data-bind="text: title"></h1>
+		<h2>Published on <span data-bind="text: $parent.formatDate(publishedDate())"></span></h2>
+		<p data-bind="text: synposis"></p>
+	</div>
+	<!-- /ko -->
+	
+	<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>ISBN</th>
+			<th>Published</th>
+		</tr>
+	</thead>
+	<tbody data-bind="foreach: books">
+		<tr>
+			<td><a href="#" data-bind="text: title, click: $parent.loadBook"></a></td>
+			<td data-bind="text: isbn"></td>
+			<td data-bind="text: $parent.formatDate(publishedDate)"></td>
+		</tr>
+	</tbody>
+	</table>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script type='text/javascript' src='js/knockout.mapping.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.books = [
+				{
+					title: 'Rapid Application Development With CakePHP',
+					isbn: '1460954394',
+					publishedDate: '2011-02-17'
+				},
+				{
+					title: '20 Recipes for Programming MVC 3: Faster, Smarter Web Development', 
+					isbn: '1449309860',
+					publishedDate: '2011-10-14'
+				},
+				{
+					title: '20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone', 
+					isbn: '1449319548',
+					publishedDate: '2012-04-06'
+				}
+			];
+			
+			self.book;
+			self.hasFetchedBook = ko.observable(false);
+			
+			self.loadBook = function() {
+				$.ajax({
+					url: 'book.html',
+					type: 'GET',
+					contentType: 'application/json'
+				}).success(function(data) { 
+					self.book = ko.mapping.fromJSON(data, self);
+					self.hasFetchedBook(true);
+				});
+			};
+			
+			self.formatDate = function(dateToFormat) {
+				var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+				var d = new Date(dateToFormat);
+				
+				return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

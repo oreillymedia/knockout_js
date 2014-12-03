@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<form data-bind="submit: validateAndSave, with: user">
+		<input type="text" data-bind="value: firstName" placeholder="Enter your first name" required /><br/>
+		<input type="text" data-bind="value: lastName" placeholder="Enter your last name" required /><br/>
+		<input type="email" data-bind="value: email" placeholder="Enter your email" required /><br/>
+		
+		<input type="submit" data-bind="value: (id == 0) ? 'Create' : 'Update'" />
+	</form>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/jquery.validate.min.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script type='text/javascript' src='js/knockout.mapping.js'></script>
+	<script>
+		function ViewModel(user) {
+			var self = this;
+			
+			var mapping = {
+				'observe': [ "firstName", "lastName", "email"  ],
+				'ignore': [ "created" ]
+			};
+			
+			self.user = ko.mapping.fromJS(user, mapping);
+			
+			self.validateAndSave = function(form) {
+				if (!$(form).validate()) return;
+				
+				if (self.user.id == 0)
+					alert("Creating a user");
+				else
+					alert("Updating a user");
+			};
+		};
+		
+		var user = {
+			id: 1,
+			firstName: 'Mike',
+			lastName: 'Wilson',
+			email: 'mike@notarealaddress.com',
+			created: '2014-10-12'
+		};
+		
+		var viewModel = new ViewModel(user);
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

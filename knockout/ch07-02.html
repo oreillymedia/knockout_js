@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	List of books
+	<ul>
+	<!-- ko foreach: books -->
+		<li>
+			<input type="checkbox" data-bind="attr: { id: isbn }, checked: owned "/>
+			<label data-bind="attr: { for: isbn }, text: title"></label>
+		</li>
+	<!-- /ko -->
+	</ul>
+	
+	Books you own
+	<ul>
+	<!-- ko foreach: booksOwned -->
+		<li data-bind="text: title"></li>
+	<!-- /ko -->
+	</ul>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script type='text/javascript' src='js/booksOwned.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.books = ko.observableArray([
+				{
+					title: 'Rapid Application Development With CakePHP',
+					isbn: '1460954394',
+					owned: ko.observable(false)
+				},
+				{
+					title: '20 Recipes for Programming MVC 3: Faster, Smarter Web Development', 
+					isbn: '1449309860',
+					owned: ko.observable(false)
+				},
+				{
+					title: '20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone', 
+					isbn: '1449319548',
+					owned: ko.observable(false)
+				}
+			]);
+			
+			self.booksOwned = self.books.booksOwned('owned', true);
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

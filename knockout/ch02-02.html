@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<p data-bind="style: { marginBottom: 0, paddingBottom: '1em' }, css: 'myClass'">This text has custom styles and a CSS class.</p>
+	<p data-bind="attr: { id: 'myCustomId' }">This p tag has an id data bound to it.</p>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		var viewModel = function() {
+			var self = this;
+			
+			self.name = 'Steve Kennedy';
+			
+			self.getName = function() {
+				return 'Hello <em>' + self.name + '</em>!';
+			};
+		};
+		
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

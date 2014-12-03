@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<div id="book" data-bind="with: book">
+		<h1 data-bind="text: title"></h1>
+		<h2>Published on <span data-bind="text: $parent.formatDate(publishedDate)"></span></h2>
+		<p data-bind="text: synposis"></p>
+	</div>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel(book) {
+			var self = this;
+			
+			self.book = book;
+			
+			self.formatDate = function(dateToFormat) {
+				var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+				var d = new Date(dateToFormat);
+				
+				return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+			};
+		};
+		
+		var book = {
+			title: 'Rapid Application Development With CakePHP',
+			synposis: '...',
+			isbn: '1460954394',
+			publishedDate: '2011-02-17'
+		};
+		
+		var viewModel = new ViewModel(book);
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

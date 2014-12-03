@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<img id="current_book" />
+	
+	<ul>
+		<!-- ko foreach: books -->
+		<li data-bind="text: title, event: { mouseover: $parent.loadImage }"></li>
+		<!-- /ko -->
+	</ul>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.books = [
+				{
+					title: 'Rapid Application Development With CakePHP',
+					image: 'http://ecx.images-amazon.com/images/I/41JC54HEroL._AA160_.jpg'
+				},
+				{
+					title: '20 Recipes for Programming MVC 3: Faster, Smarter Web Development', 
+					image: 'http://ecx.images-amazon.com/images/I/51LpqnDq8-L._AA160_.jpg'
+				},
+				{
+					title: '20 Recipes for Programming PhoneGap: Cross-Platform Mobile Development for Android and iPhone', 
+					image: 'http://ecx.images-amazon.com/images/I/51AkFkNeUxL._AA160_.jpg'
+				}
+			];
+			
+			self.loadImage = function(data, event) {
+				$('#current_book').attr('src', data.image);
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

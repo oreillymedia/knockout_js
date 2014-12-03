@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<label for="tags">Filter a tag: </label>
+	<input id="tags" data-bind="textInput: tag"><br/><br/>
+	
+	Tags Matching:
+	<ul>
+	<!-- ko foreach: matchedTags -->
+		<li data-bind="text: $data"></li>
+	<!-- /ko -->
+	</ul>
+	
+	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.matchedTags = ko.observableArray([]);
+			
+			self.availableTags = [];
+			
+			self.tag = ko.observable().extend( { rateLimit: { timeout: 1000, method: "notifyWhenChangesStop" } });
+			
+			self.tag.subscribe(function(value) {
+				self.matchedTags.removeAll();
+				
+				if (value !== '') {
+					for (var i = 0; i < self.availableTags.length; i++) {
+						if (self.availableTags[i].toLowerCase().indexOf(value) >= 0)
+							self.matchedTags.push(self.availableTags[i]);
+					}
+				}
+			});
+			
+			$.ajax({
+				url: 'tags.html',
+				type: 'GET',
+				contentType: 'application/json',
+				dataType: 'json'
+			}).success(function(data) { 
+				self.availableTags = data;
+			});
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

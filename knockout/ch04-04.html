@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel(person) {
+			var self = this;
+			
+			self.person = {
+				id: person.id,
+				firstName: ko.observable(person.firstName),
+				lastName: ko.observable(person.lastName),
+				status: person.status
+			};
+		};
+		
+		var person = {
+			id: 1,
+			firstName: 'Steve',
+			lastName: 'Kennedy',
+			status: 'Active'
+		};
+		
+		var viewModel = new ViewModel(person);
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

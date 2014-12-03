@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<button type="button" data-bind="click: updateObservable">Click me</button>
+	
+	<!-- ko if: showExtraData -->
+	<div>
+		Now you see me!
+	</div>
+	<!-- /ko -->
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.showExtraData = ko.observable(false);
+			
+			self.updateObservable = function() {
+				self.showExtraData(!self.showExtraData());
+			};
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

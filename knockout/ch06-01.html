@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<div id="viewModel1">
+		<h1 data-bind="text: name"></h1>
+	</div>
+	
+	<div id="viewModel2">
+		<h1 data-bind="text: name"></h1>
+	</div>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel(name) {
+			var self = this;
+			
+			self.name = name;
+		};
+		
+		var viewModel1 = new ViewModel('Steve Kennedy');
+		ko.applyBindings(viewModel1, document.getElementById('viewModel1'));
+		
+		var viewModel2 = new ViewModel('Mike Wilson');
+		ko.applyBindings(viewModel2, document.getElementById('viewModel2'));
+	</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		var myFirstViewModel = {
+			name: 'Steve Kennedy'
+		};
+		
+		ko.applyBindings(myFirstViewModel);
+
+		var mySecondViewModel = function() {
+			var self = this;
+			
+			self.name = 'Steve Kennedy';
+			
+			self.getName = function() {
+				return self.name;
+			};
+		};
+
+		ko.applyBindings(mySecondViewModel);
+		
+		alert(myFirstViewModel.name);
+ 
+		alert(mySecondViewModel.name); // access the property name
+		alert(mySecondViewModel.getName()); // access the function getName
+		
+		function ViewModel(name) {
+			var self = this;
+			
+			self.name = name;
+			
+			self.getName = function() {
+				return self.name;
+			};
+		};
+		
+		var myThirdViewModel = new ViewModel('Steve Kennedy');
+		ko.applyBindings(myThirdViewModel);
+	</script>
+</body>
+</html>

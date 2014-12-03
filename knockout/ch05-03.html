@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<select data-bind="options: availableCountries, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a country...', value: selectedCountry"></select>
+	<select data-bind="options: availableStates, optionsText: 'name', optionsValue: 'id', value: selectedState, visible: availableStates().length > 0" style="display:none"></select>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		function ViewModel() {
+			var self = this;
+			
+			self.selectedCountry = ko.observable();
+			self.selectedState = ko.observable();
+			
+			self.availableCountries = ko.observableArray([
+				{
+					id: 1, name: 'United States', states: [
+						{
+							id: 1, name: 'Alabama'
+						},
+						// ...
+					]
+				},
+				{
+					id: 2, name: 'Canada', states: [
+						{
+							id: 53, name: 'Alberta'
+						},
+						// ...
+					]
+				}
+			]);
+			
+			self.availableStates = ko.observableArray([]);
+			
+			self.selectedCountry.subscribe(function() {
+				self.availableStates([]);
+			
+				for (var i = 0; i < self.availableCountries().length; i++) {
+					if (self.availableCountries()[i].id == self.selectedCountry()) {
+						self.availableStates(self.availableCountries()[i].states);
+						break;
+					}
+				}
+			});
+		};
+		
+		var viewModel = new ViewModel();
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>

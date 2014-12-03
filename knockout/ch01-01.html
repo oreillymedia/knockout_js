@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding with KnockoutJS</title>
+</head>
+<body>
+	
+	<h1>Hello <span data-bind="text: name"></span></h1>
+	
+	<script type='text/javascript' src='js/knockout-3.2.0.js'></script>
+	<script>
+		var viewModel = function() {
+			this.name = 'Steve Kennedy';
+		};
+		
+		ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
